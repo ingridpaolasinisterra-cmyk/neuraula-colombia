@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>NeurAula Colombia — Neurociencia para Transformar las Aulas</title>
+<meta name="description" content="Blog pedagógico sobre neurociencia y educación en Colombia. Reflexiones sobre el cerebro, el aprendizaje y la transformación educativa."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ===== VARIABLES ===== */
+:root{
+  --cream:#F5F0E8;--cream-dark:#EDE5D4;--dark:#1A1B1E;
+  --teal:#1B5E5A;--teal-light:#2D8A82;--terra:#C4622D;
+  --terra-light:#E07B47;--gold:#A87C2A;--border:#D8CCBA;
+  --text-body:#2E2C28;--text-muted:#7A6F60;--white:#FDFBF7;
+  --shadow:0 4px 24px rgba(26,27,30,.08);--shadow-lg:0 12px 48px rgba(26,27,30,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--cream);color:var(--text-body);font-family:'Crimson Pro',Georgia,serif;font-size:1.15rem;line-height:1.75;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--teal);text-decoration:none;transition:color .2s}
+a:hover{color:var(--terra)}
+h1,h2,h3,h4,h5{font-family:'Playfair Display',Georgia,serif;line-height:1.2;color:var(--dark)}
+p{margin-bottom:1.2rem}
+
+/* ===== NAVBAR ===== */
+.site-header{background:var(--dark);position:sticky;top:0;z-index:1000;box-shadow:0 2px 16px rgba(0,0,0,.25)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;gap:1rem}
+.logo{display:flex;flex-direction:column;text-decoration:none;cursor:pointer}
+.logo-main{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--cream);font-weight:800;letter-spacing:-.5px}
+.logo-main span{color:var(--terra-light)}
+.logo-sub{font-family:'DM Sans',sans-serif;font-size:.68rem;color:#7A6F60;letter-spacing:1.5px;text-transform:uppercase}
+.nav-links{display:flex;gap:.15rem;list-style:none;flex-wrap:wrap}
+.nav-links a{font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;color:#B8B0A4;letter-spacing:.5px;padding:.4rem .75rem;border-radius:4px;transition:all .2s;text-transform:uppercase;cursor:pointer;display:block}
+.nav-links a:hover,.nav-links a.active{color:var(--cream);background:var(--teal)}
+
+/* ===== PÁGINAS (SPA) ===== */
+.page{display:none}
+.page.active{display:block}
+
+/* ===== HERO PORTADA ===== */
+.hero{position:relative;background:var(--dark);min-height:72vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 80% 40%,rgba(27,94,90,.55) 0%,transparent 70%),radial-gradient(ellipse 40% 50% at 10% 80%,rgba(196,98,45,.3) 0%,transparent 60%),linear-gradient(145deg,#1A1B1E 0%,#0E2826 100%)}
+.hero-pattern{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:32px 32px}
+.hero-inner{position:relative;max-width:1200px;margin:0 auto;padding:5rem 2rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-tag{display:inline-block;background:var(--terra);color:var(--white);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:.35rem .9rem;border-radius:3px;margin-bottom:1.2rem}
+.hero-title{font-size:clamp(1.8rem,3.5vw,3rem);color:var(--cream);font-weight:800;line-height:1.1;margin-bottom:1rem}
+.hero-title em{color:var(--terra-light);font-style:italic}
+.hero-subtitle{font-family:'Crimson Pro',serif;font-size:1.1rem;color:#9E968A;line-height:1.65;margin-bottom:2rem}
+.hero-cta{display:inline-flex;align-items:center;gap:.6rem;background:var(--terra);color:var(--white);font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;padding:.85rem 1.8rem;border-radius:4px;transition:all .25s;cursor:pointer;border:none}
+.hero-cta:hover{background:var(--terra-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,98,45,.4)}
+.hero-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(8px);border-radius:12px;padding:2rem;color:var(--cream)}
+.hero-card-label{font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--teal-light);margin-bottom:1rem}
+.hero-stat{display:flex;flex-direction:column;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.hero-stat:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:800;color:var(--terra-light);line-height:1}
+.stat-label{font-size:.9rem;color:#9E968A;margin-top:.25rem}
+
+/* ===== SECCIÓN POSTS ===== */
+.section{max-width:1200px;margin:0 auto;padding:4rem 2rem}
+.section-label{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem}
+.section-label h2{font-size:1.1rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;font-family:'DM Sans',sans-serif}
+.section-line{flex:1;height:1px;background:var(--border)}
+.posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:2rem}
+.post-card{background:var(--white);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;cursor:pointer}
+.post-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.post-card-header{padding:2rem 2rem 0;min-height:140px;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+.post-card-header::before{content:'';position:absolute;inset:0;border-radius:10px 10px 0 0;opacity:.1}
+.c1::before{background:var(--teal)}.c2::before{background:var(--terra)}.c3::before{background:var(--gold)}.c4::before{background:#5B3A8A}.c5::before{background:#1B5E5A}
+.post-number{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:800;color:var(--border);line-height:1;position:absolute;top:.8rem;right:1.2rem}
+.post-tag{display:inline-block;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:.3rem .8rem;border-radius:3px;margin-bottom:.8rem;width:fit-content}
+.tag-teal{background:rgba(27,94,90,.12);color:var(--teal)}
+.tag-terra{background:rgba(196,98,45,.12);color:var(--terra)}
+.tag-gold{background:rgba(168,124,42,.12);color:var(--gold)}
+.tag-purple{background:rgba(91,58,138,.12);color:#5B3A8A}
+.post-card-body{padding:1.2rem 2rem 2rem;flex:1;display:flex;flex-direction:column}
+.post-card-title{font-size:1.15rem;font-weight:600;color:var(--dark);margin-bottom:.7rem;line-height:1.3}
+.post-card-excerpt{font-size:.98rem;color:var(--text-muted);line-height:1.6;flex:1}
+.post-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--cream-dark)}
+.post-meta{font-family:'DM Sans',sans-serif;font-size:.75rem;color:var(--text-muted)}
+.read-more{font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;color:var(--teal);display:flex;align-items:center;gap:.3rem}
+.read-more::after{content:'→'}
+.post-card:hover .read-more{color:var(--terra)}
+.featured-card{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;min-height:280px;cursor:pointer}
+.featured-card .fch{background:linear-gradient(135deg,var(--teal) 0%,#0E2826 100%);border-radius:10px 0 0 10px;padding:2.5rem;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+.featured-card .fch::before{content:'';position:absolute;inset:0}
+.f-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:800;color:rgba(255,255,255,.08);position:absolute;top:.5rem;right:1.2rem;line-height:1}
+.featured-title{font-size:1.5rem;color:var(--cream);font-weight:700;line-height:1.2;position:relative}
+.featured-sub{font-size:.95rem;color:rgba(245,240,232,.65);margin-top:.5rem;position:relative}
+.featured-card .post-card-body{padding:2rem 2.2rem}
+.featured-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+
+/* ===== ARTÍCULO ===== */
+.post-hero{background:var(--dark);padding:4.5rem 2rem 3.5rem;position:relative;overflow:hidden}
+.post-hero-inner{position:relative;max-width:820px;margin:0 auto}
+.breadcrumb{font-family:'DM Sans',sans-serif;font-size:.78rem;color:var(--text-muted);margin-bottom:1.5rem}
+.breadcrumb .bc-link{color:var(--teal-light);cursor:pointer}
+.post-hero-tag{display:inline-block;font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--terra-light);border:1px solid var(--terra);padding:.3rem .9rem;border-radius:3px;margin-bottom:1.2rem}
+.post-hero-title{font-size:clamp(1.6rem,3.5vw,2.6rem);color:var(--cream);font-weight:800;line-height:1.15;margin-bottom:1rem}
+.post-hero-lead{font-size:1.15rem;color:#9E968A;line-height:1.6;margin-bottom:1.5rem}
+.post-hero-meta{display:flex;flex-wrap:wrap;gap:1.5rem;font-family:'DM Sans',sans-serif;font-size:.78rem;color:var(--text-muted);border-top:1px solid rgba(255,255,255,.08);padding-top:1rem}
+.post-hero-meta strong{color:#B8B0A4}
+.article-wrap{max-width:1200px;margin:0 auto;padding:3rem 2rem 5rem;display:grid;grid-template-columns:1fr 300px;gap:4rem;align-items:start}
+.article-body{}
+.article-body h2{font-size:1.6rem;color:var(--teal);margin:2.5rem 0 .8rem;padding-bottom:.4rem;border-bottom:2px solid var(--cream-dark)}
+.article-body h3{font-size:1.2rem;color:var(--dark);margin:1.8rem 0 .6rem}
+.article-body p{font-size:1.08rem;color:var(--text-body);line-height:1.8;margin-bottom:1.3rem}
+.article-body ul,.article-body ol{padding-left:1.5rem;margin-bottom:1.3rem}
+.article-body li{font-size:1.08rem;line-height:1.7;margin-bottom:.4rem}
+blockquote{border-left:4px solid var(--terra);padding:1.2rem 1.6rem;margin:2rem 0;background:var(--cream-dark);border-radius:0 8px 8px 0;font-style:italic;font-size:1.15rem;color:var(--teal)}
+blockquote cite{display:block;margin-top:.5rem;font-size:.88rem;font-style:normal;color:var(--text-muted)}
+.highlight-box{background:linear-gradient(135deg,var(--teal) 0%,#0E3A38 100%);border-radius:10px;padding:2rem;margin:2rem 0;color:var(--cream)}
+.highlight-box h4{color:var(--terra-light);font-size:.95rem;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans',sans-serif;margin-bottom:.8rem}
+.highlight-box p{font-size:1rem;color:rgba(245,240,232,.85);margin:0}
+.info-card{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:1.5rem;margin:1.5rem 0}
+.info-card h4{color:var(--gold);font-size:.95rem;margin-bottom:.6rem}
+.info-card p{font-size:1rem;margin:0}
+.concept-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+.concept-item{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:1.2rem}
+.concept-item h5{font-family:'Playfair Display',serif;color:var(--teal);font-size:1rem;margin-bottom:.4rem}
+.concept-item p{font-size:.93rem;color:var(--text-muted);margin:0}
+.references{background:var(--cream-dark);border-radius:8px;padding:2rem;margin-top:3rem}
+.references h4{font-family:'DM Sans',sans-serif;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem}
+.references p{font-size:.9rem;color:var(--text-muted);margin-bottom:.5rem;font-style:italic;line-height:1.5}
+.article-sidebar{position:sticky;top:5rem}
+.sidebar-widget{background:var(--white);border-radius:10px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+.sidebar-widget h3{font-family:'DM Sans',sans-serif;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem}
+.toc-list{list-style:none}
+.toc-list li{border-bottom:1px solid var(--cream-dark)}
+.toc-list li:last-child{border-bottom:none}
+.toc-list a{display:block;padding:.55rem 0;font-size:.93rem;color:var(--text-body);font-family:'Crimson Pro',serif;cursor:pointer}
+.toc-list a:hover{color:var(--teal);padding-left:.4rem}
+.related-list{list-style:none}
+.related-list li{margin-bottom:.8rem}
+.related-list a{font-size:.93rem;color:var(--teal);line-height:1.4;font-family:'Crimson Pro',serif;cursor:pointer}
+.related-list a:hover{color:var(--terra)}
+.nav-btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--teal);color:var(--white);font-family:'DM Sans',sans-serif;font-size:.9rem;padding:.85rem 2rem;border-radius:4px;cursor:pointer;border:none;transition:background .2s}
+.nav-btn:hover{background:var(--teal-light)}
+.nav-btn.secondary{background:var(--cream-dark);color:var(--dark)}
+.nav-btn.secondary:hover{background:var(--border)}
+
+/* ===== NOSOTROS ===== */
+.about-hero{background:linear-gradient(135deg,var(--teal) 0%,#0A1F1E 100%);padding:5rem 2rem;text-align:center}
+.about-hero h1{font-size:2.3rem;color:var(--cream);margin-bottom:1rem}
+.about-hero p{font-size:1.15rem;color:rgba(245,240,232,.75);max-width:600px;margin:0 auto}
+.about-section{max-width:900px;margin:0 auto;padding:4rem 2rem}
+.author-card{display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:center;background:var(--white);border-radius:12px;padding:2rem;box-shadow:var(--shadow);margin-bottom:2rem}
+.author-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--terra));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--white);font-weight:800;flex-shrink:0}
+.objective-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem}
+.objective-item{background:var(--white);border-radius:10px;padding:1.5rem;box-shadow:var(--shadow)}
+.objective-icon{font-size:1.8rem;margin-bottom:.6rem}
+.objective-item h3{font-size:1.05rem;color:var(--teal);margin-bottom:.4rem}
+.objective-item p{font-size:.95rem;color:var(--text-muted);margin:0}
+
+/* ===== CITA BANDA ===== */
+.quote-band{background:var(--teal);padding:4rem 2rem;text-align:center}
+.quote-band blockquote{border:none;background:transparent;padding:0;margin:0;font-size:1.5rem;color:var(--cream);max-width:700px;margin:0 auto}
+.quote-band blockquote cite{color:rgba(245,240,232,.55);font-size:.85rem;margin-top:1rem}
+
+/* ===== FOOTER ===== */
+.site-footer{background:var(--dark);color:#9E968A;padding:3rem 2rem}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.footer-brand p{font-size:.9rem;margin-top:.6rem;line-height:1.6}
+.footer-nav h4{font-family:'DM Sans',sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:#B8B0A4;margin-bottom:1rem}
+.footer-nav ul{list-style:none}
+.footer-nav li{margin-bottom:.5rem}
+.footer-nav a{font-size:.88rem;color:#7A6F60;cursor:pointer}
+.footer-nav a:hover{color:var(--cream)}
+.footer-bottom{max-width:1200px;margin:1.5rem auto 0;font-family:'DM Sans',sans-serif;font-size:.76rem;color:#5C5248;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-card{display:none}
+  .featured-card{grid-template-columns:1fr}
+  .featured-card .fch{border-radius:10px 10px 0 0;padding:2rem}
+  .article-wrap{grid-template-columns:1fr}
+  .article-sidebar{position:static}
+  .footer-inner{grid-template-columns:1fr;gap:1.5rem}
+  .concept-grid{grid-template-columns:1fr}
+  .objective-grid{grid-template-columns:1fr}
+  .author-card{grid-template-columns:1fr;text-align:center}
+}
+@media(max-width:620px){
+  .posts-grid{grid-template-columns:1fr}
+  .featured-card{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeUp .6s ease both}
+.d1{animation-delay:.15s}.d2{animation-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<header class="site-header">
+  <nav class="nav-inner">
+    <div class="logo" onclick="showPage('home')">
+      <span class="logo-main">Neur<span>Aula</span></span>
+      <span class="logo-sub">Colombia · Neurociencia & Educación</span>
+    </div>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" id="nav-home" class="active">Inicio</a></li>
+      <li><a onclick="showPage('p1')" id="nav-p1">La Problemática</a></li>
+      <li><a onclick="showPage('p2')" id="nav-p2">El Cerebro</a></li>
+      <li><a onclick="showPage('p3')" id="nav-p3">Familia y Escuela</a></li>
+      <li><a onclick="showPage('p4')" id="nav-p4">Cerebro Emocional</a></li>
+      <li><a onclick="showPage('p5')" id="nav-p5">Func. Ejecutivas</a></li>
+      <li><a onclick="showPage('about')" id="nav-about">Nosotros</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ==================== PÁGINA: HOME ==================== -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-inner">
+      <div class="anim">
+        <span class="hero-tag">Blog Pedagógico · Maestría en Educación · UCC</span>
+        <h1 class="hero-title">Cuando la <em>neurociencia</em> entra al aula colombiana</h1>
+        <p class="hero-subtitle">Exploramos cómo el conocimiento sobre el cerebro puede transformar la forma en que entendemos, analizamos y abordamos la deserción escolar y el bajo rendimiento académico en contextos de vulnerabilidad en Colombia.</p>
+        <button class="hero-cta" onclick="showPage('p1')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Comenzar la lectura
+        </button>
+      </div>
+      <div class="hero-card anim d1">
+        <div class="hero-card-label">¿Por qué este blog?</div>
+        <div class="hero-stat">
+          <span class="stat-num">42%</span>
+          <span class="stat-label">de estudiantes rurales no completan el bachillerato en Colombia (DANE, 2023)</span>
+        </div>
+        <div class="hero-stat">
+          <span class="stat-num">5</span>
+          <span class="stat-label">artículos que conectan neurociencia con la realidad educativa colombiana</span>
+        </div>
+        <div class="hero-stat">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">posibilidades cuando entendemos cómo aprende el cerebro</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-label">
+      <h2>Artículos del Blog</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="posts-grid">
+
+      <!-- Destacado -->
+      <article class="featured-card post-card" onclick="showPage('p1')">
+        <div class="fch">
+          <span class="f-num">01</span>
+          <span class="post-tag" style="background:rgba(196,98,45,.2);color:var(--terra-light);position:relative">Problemática Educativa</span>
+          <h2 class="featured-title">La deserción escolar en Colombia: un grito que la neurociencia puede ayudarnos a escuchar</h2>
+          <p class="featured-sub">¿Por qué tantos niños y jóvenes abandonan la escuela? La neurociencia revela lo que los datos no dicen.</p>
+        </div>
+        <div class="post-card-body">
+          <p style="font-size:1rem;color:var(--text-muted);line-height:1.7">Colombia enfrenta una crisis educativa silenciosa: miles de estudiantes abandonan la escuela antes de terminar. Las causas parecen económicas, pero la neurociencia nos muestra que el problema comienza mucho antes: en el cerebro estresado, en la amígdala hiperactivada, en la corteza prefrontal subdesarrollada.</p>
+          <div class="post-card-footer">
+            <span class="post-meta">Artículo de apertura · 8 min</span>
+            <span class="read-more">Leer</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card c1" onclick="showPage('p2')">
+        <div class="post-card-header">
+          <span class="post-number">02</span>
+          <span class="post-tag tag-teal">Neurobiología</span>
+        </div>
+        <div class="post-card-body">
+          <h2 class="post-card-title">La construcción del cerebro: base neurobiológica del aprendizaje</h2>
+          <p class="post-card-excerpt">El cerebro no viene "terminado". Se construye día a día a través de las experiencias, las relaciones y el entorno. Comprender cómo se edifica esta arquitectura neuronal es fundamental para entender por qué el contexto importa tanto en educación.</p>
+          <div class="post-card-footer">
+            <span class="post-meta">Unidad 2 · UCC · 7 min</span>
+            <span class="read-more">Leer</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card c2" onclick="showPage('p3')">
+        <div class="post-card-header">
+          <span class="post-number">03</span>
+          <span class="post-tag tag-terra">Neuroeducación</span>
+        </div>
+        <div class="post-card-body">
+          <h2 class="post-card-title">Familia y escuela: los dos grandes constructores del cerebro</h2>
+          <p class="post-card-excerpt">La dinámica familiar es el primer laboratorio donde el cerebro aprende a existir. La escuela es el segundo. Cuando ambos fallan o se desconectan, las consecuencias se imprimen en la neurobiología del estudiante.</p>
+          <div class="post-card-footer">
+            <span class="post-meta">Tema 2 · 8 min</span>
+            <span class="read-more">Leer</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card c3" onclick="showPage('p4')">
+        <div class="post-card-header">
+          <span class="post-number">04</span>
+          <span class="post-tag tag-gold">Emoción & Aprendizaje</span>
+        </div>
+        <div class="post-card-body">
+          <h2 class="post-card-title">Sin emoción no hay aprendizaje: el cerebro emocional en el aula</h2>
+          <p class="post-card-excerpt">Joseph LeDoux lo demostró: la emoción llega al cerebro antes que la razón. Damasio lo confirmó: no existe pensamiento racional sin base emocional. ¿Por qué seguimos diseñando aulas que ignoran el cerebro emocional?</p>
+          <div class="post-card-footer">
+            <span class="post-meta">Tema 3 · 7 min</span>
+            <span class="read-more">Leer</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card c4" onclick="showPage('p5')">
+        <div class="post-card-header">
+          <span class="post-number">05</span>
+          <span class="post-tag tag-purple">Funciones Ejecutivas</span>
+        </div>
+        <div class="post-card-body">
+          <h2 class="post-card-title">Funciones ejecutivas: el motor del aprendizaje que Colombia necesita fortalecer</h2>
+          <p class="post-card-excerpt">Memoria de trabajo, control inhibitorio, flexibilidad cognitiva. Tres habilidades cerebrales que predicen el éxito académico más que el CI. Rojas-Barahona nos explica cómo desarrollarlas en el aula.</p>
+          <div class="post-card-footer">
+            <span class="post-meta">Rojas-Barahona · Cap. 1 · 9 min</span>
+            <span class="read-more">Leer</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <div class="quote-band">
+    <blockquote>
+      "Educar es simplemente ayudar a que el otro organice, planifique y desarrolle bien su cerebro."
+      <cite>OCDE — Learning Sciences and Brain Research, 1999</cite>
+    </blockquote>
+  </div>
+
+  <section class="section" style="text-align:center;padding:3.5rem 2rem">
+    <h2 style="font-size:1.7rem;margin-bottom:.7rem">¿Quiénes somos?</h2>
+    <p style="font-size:1.05rem;color:var(--text-muted);max-width:540px;margin:0 auto 1.5rem">Este blog nació en el marco de la Maestría en Educación de la Universidad Cooperativa de Colombia como una reflexión colectiva sobre neurociencia y pedagogía.</p>
+    <button class="nav-btn" onclick="showPage('about')">Conocer el equipo →</button>
+  </section>
+</div>
+
+<!-- ==================== PÁGINA: ARTÍCULO 1 ==================== -->
+<div class="page" id="page-p1">
+  <section class="post-hero" style="background:linear-gradient(145deg,#1A1B1E 0%,#0D2B29 100%)">
+    <div class="post-hero-inner">
+      <div class="breadcrumb"><span class="bc-link" onclick="showPage('home')">Inicio</span> › Artículo 01</div>
+      <span class="post-hero-tag">Problemática Educativa · Colombia</span>
+      <h1 class="post-hero-title">La deserción escolar en Colombia: un grito que la neurociencia puede ayudarnos a escuchar</h1>
+      <p class="post-hero-lead">Miles de niños y jóvenes abandonan la escuela cada año. Las causas se ven económicas, pero la neurociencia revela que el problema es, antes que todo, cerebral: un sistema nervioso desbordado por el estrés, la adversidad y la desconexión emocional.</p>
+      <div class="post-hero-meta">
+        <span><strong>Categoría:</strong> Problemática educativa</span>
+        <span><strong>Lectura:</strong> 8 minutos</span>
+        <span><strong>Fuentes:</strong> DANE, MEN, Unidad 2 UCC, Rojas-Barahona</span>
+      </div>
+    </div>
+  </section>
+  <div class="article-wrap">
+    <article class="article-body">
+      <h2>La magnitud del problema</h2>
+      <p>Colombia avanzó considerablemente en cobertura educativa durante las últimas décadas, pero la permanencia en el sistema escolar sigue siendo un reto profundo. Según datos del Ministerio de Educación Nacional, la tasa de deserción intraanual en educación básica y media afecta de manera desproporcionada a estudiantes de zonas rurales, territorios de posconflicto, comunidades étnicas y familias en situación de pobreza. Las estadísticas del DANE señalan que en algunos departamentos del Pacífico, la Amazonía y La Guajira, más del 40% de los estudiantes no completan el bachillerato.</p>
+      <p>Las explicaciones convencionales apuntan a factores económicos: la necesidad de trabajar, los costos de transporte, la falta de útiles escolares. Sin embargo, estas razones, siendo reales, son insuficientes. Hay algo más profundo ocurriendo que la neurociencia contemporánea nos ayuda a iluminar: el abandono escolar no es solo una decisión racional o una consecuencia directa de la pobreza. Es, en muchos casos, la respuesta de un cerebro que ha perdido la capacidad de aprender porque las condiciones para hacerlo nunca estuvieron presentes.</p>
+      <blockquote>"Cada vez que se aprende algo, el cerebro cambia. Lo que se hace desde la educación es permitir que el individuo aprenda a utilizar su inteligencia de la mejor forma."<cite>— Catherine Esteban Ojeda, Unidad 2: La Construcción del Cerebro, UCC</cite></blockquote>
+      <h2>La neurociencia como lente interpretativo</h2>
+      <p>La neurociencia educativa nos ofrece una perspectiva que va más allá de los indicadores cuantitativos. Nos permite preguntarnos: ¿qué le ocurre al cerebro de un niño que crece en medio del conflicto armado, la violencia intrafamiliar o la pobreza extrema? ¿Cómo procesa el aprendizaje un cerebro que vive en estado de alerta permanente?</p>
+      <p>La respuesta está en la amígdala, esa estructura subcortical del sistema límbico que funciona como un sistema de alarma biológico. Cuando un niño o joven vive en condiciones de amenaza constante —real o percibida—, la amígdala se hiperactivada y produce cortisol de manera sostenida. Este estado de estrés crónico afecta directamente el hipocampo, estructura fundamental para convertir la memoria de corto plazo en memoria de largo plazo, y deteriora la corteza prefrontal, responsable de las funciones ejecutivas: la planificación, la inhibición de impulsos, la atención sostenida y la toma de decisiones (Reeve, 2010).</p>
+      <div class="highlight-box"><h4>Concepto Clave · Neurociencia</h4><p>El cerebro humano no puede aprender eficientemente cuando está en modo de supervivencia. El cortisol elevado de forma crónica debilita las conexiones sinápticas del hipocampo y reduce el volumen de la corteza prefrontal. Un estudiante en condición de estrés extremo no elige no aprender: su biología lo obstaculiza.</p></div>
+      <h2>La lluvia de ideas: identificando la problemática</h2>
+      <p>Cuando un grupo reflexiona sobre los problemas de la educación en Colombia desde la neurociencia, surgen de inmediato varias dimensiones entrelazadas:</p>
+      <ul>
+        <li><strong>La violencia y el conflicto:</strong> El estrés postraumático impacta la arquitectura cerebral en desarrollo, especialmente en la infancia.</li>
+        <li><strong>La pobreza y la desnutrición:</strong> El cerebro en desarrollo requiere nutrientes específicos; su deficiencia afecta el establecimiento de redes neuronales fundamentales.</li>
+        <li><strong>La desconexión emocional en el aula:</strong> Docentes que no reconocen el estado emocional de sus estudiantes generan ambientes de aprendizaje que el cerebro social rechaza.</li>
+        <li><strong>La brecha familia-escuela:</strong> Cuando familia y escuela no se articulan, el estudiante enfrenta dos mundos cognitivos distintos y a menudo contradictorios.</li>
+        <li><strong>La falta de desarrollo de funciones ejecutivas:</strong> Sin intervención explícita, muchos estudiantes no desarrollan las habilidades cognitivas de orden superior que la escuela presupone que ya poseen.</li>
+      </ul>
+      <h2>El contexto social como escultor del cerebro</h2>
+      <p>La Unidad 2 del módulo <em>Cerebro y Educación</em> de la UCC nos recuerda algo fundamental: "el cerebro humano se educa en una cultura determinada, donde se habla una lengua particular y se practican valores familiares, sociales, políticos, religiosos y económicos". Esta afirmación tiene una consecuencia pedagógica radical: no existe un cerebro neutro ante la desigualdad.</p>
+      <p>El niño que crece en una familia con recursos, estimulación cognitiva temprana, alimentación adecuada y vínculos afectivos seguros llega a la escuela con un cerebro preparado para aprender. El niño que crece en la adversidad llega con un sistema nervioso configurado para sobrevivir, no para aprender. La diferencia no es de inteligencia innata; es de neurobiología moldeada por el contexto.</p>
+      <div class="concept-grid">
+        <div class="concept-item"><h5>Cerebro en modo aprendizaje</h5><p>Corteza prefrontal activa, amígdala en calma, hipocampo consolidando memoria. Ocurre cuando el estudiante se siente seguro, visto y valorado.</p></div>
+        <div class="concept-item"><h5>Cerebro en modo supervivencia</h5><p>Amígdala hiperactivada, cortisol elevado, corteza prefrontal inhibida. El aprendizaje complejo se vuelve biológicamente imposible.</p></div>
+        <div class="concept-item"><h5>Engrama negativo</h5><p>Las experiencias traumáticas dejan huellas duraderas en la memoria neural. Un niño que asocia la escuela con miedo o fracaso desarrolla resistencia al aprendizaje.</p></div>
+        <div class="concept-item"><h5>Neuroplasticidad como esperanza</h5><p>El cerebro puede cambiar a cualquier edad. Intervenciones pedagógicas correctas y vínculos afectivos sanos pueden reorganizar las redes neuronales.</p></div>
+      </div>
+      <h2>¿Qué propone la neurociencia como abordaje pedagógico?</h2>
+      <ol>
+        <li><strong>Crear ambientes emocionalmente seguros:</strong> El cerebro social necesita sentirse reconocido y válido. La empatía docente es una condición neurobiológica del aprendizaje.</li>
+        <li><strong>Articular familia y escuela de manera real:</strong> Las dos instituciones deben construir puentes que den coherencia al entorno cognitivo del estudiante.</li>
+        <li><strong>Desarrollar explícitamente las funciones ejecutivas:</strong> No dar por sentado que los estudiantes las poseen; enseñarlas sistemáticamente.</li>
+        <li><strong>Incorporar la neuroeducación en la formación docente:</strong> Un profesor que comprende cómo aprende el cerebro transforma radicalmente su práctica.</li>
+        <li><strong>Diseñar currículos que activen la motivación intrínseca:</strong> Conectar los contenidos con las emociones y contextos de vida de los estudiantes activa el sistema de recompensa cerebral.</li>
+      </ol>
+      <div class="info-card"><h4>📌 Reflexión pedagógica</h4><p>La deserción escolar en Colombia no es principalmente un problema de voluntad, de recursos o de política pública. Es, en primer lugar, un problema de cerebros no acompañados. La neurociencia nos da la herramienta para ver lo que los datos no muestran: la historia neurobiológica de cada estudiante que abandona.</p></div>
+      <h2>Conclusión: mirar con ojos neurocientíficos</h2>
+      <p>Adoptar la neurociencia como lente para analizar la problemática educativa colombiana no significa medicalizar la educación ni reducir al estudiante a su biología. Significa reconocer que detrás de cada cifra de deserción hay un cerebro que desarrolló estrategias de adaptación ante un entorno adverso, y que esas estrategias son también el punto de partida para una pedagogía que realmente transforma.</p>
+      <div class="references"><h4>Referencias</h4>
+        <p>Esteban Ojeda, C. (2015). <em>Unidad 2: La construcción del cerebro</em>. Cerebro y Educación. Universidad Cooperativa de Colombia.</p>
+        <p>Ministerio de Educación Nacional. (2023). <em>Estadísticas del sector educativo</em>. MEN Colombia.</p>
+        <p>DANE. (2023). <em>Encuesta Nacional de Calidad de Vida</em>. Departamento Administrativo Nacional de Estadística.</p>
+        <p>Reeve, J. (2010). <em>Motivación y emoción</em>. McGraw-Hill Interamericana.</p>
+        <p>Rojas-Barahona, C. A. (2022). <em>Funciones ejecutivas y educación</em>. Ediciones UC.</p>
+      </div>
+    </article>
+    <aside class="article-sidebar">
+      <div class="sidebar-widget">
+        <h3>En este artículo</h3>
+        <ul class="toc-list">
+          <li><a>La magnitud del problema</a></li>
+          <li><a>Neurociencia como lente</a></li>
+          <li><a>Lluvia de ideas</a></li>
+          <li><a>El contexto como escultor</a></li>
+          <li><a>Abordaje pedagógico</a></li>
+          <li><a>Conclusión</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-widget">
+        <h3>Artículos relacionados</h3>
+        <ul class="related-list">
+          <li><a onclick="showPage('p2')">La construcción del cerebro →</a></li>
+          <li><a onclick="showPage('p3')">Familia, escuela y cerebro →</a></li>
+          <li><a onclick="showPage('p4')">El cerebro emocional →</a></li>
+          <li><a onclick="showPage('p5')">Funciones ejecutivas →</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-widget" style="background:var(--teal);color:var(--cream)">
+        <h3 style="color:rgba(245,240,232,.6)">Dato clave</h3>
+        <p style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--terra-light);margin-bottom:.4rem">42%</p>
+        <p style="font-size:.88rem;color:rgba(245,240,232,.8);margin:0">de estudiantes rurales no termina el bachillerato en Colombia</p>
+      </div>
+    </aside>
+  </div>
+  <div style="text-align:center;padding:2rem 2rem 3rem;border-top:1px solid var(--border);display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+    <button class="nav-btn secondary" onclick="showPage('home')">← Inicio</button>
+    <button class="nav-btn" onclick="showPage('p2')">Siguiente: La construcción del cerebro →</button>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA: ARTÍCULO 2 ==================== -->
+<div class="page" id="page-p2">
+  <section class="post-hero" style="background:linear-gradient(145deg,#0E2826 0%,#1A1B1E 100%)">
+    <div class="post-hero-inner">
+      <div class="breadcrumb"><span class="bc-link" onclick="showPage('home')">Inicio</span> › Artículo 02</div>
+      <span class="post-hero-tag">Neurobiología · Aprendizaje</span>
+      <h1 class="post-hero-title">La construcción del cerebro: base neurobiológica del aprendizaje</h1>
+      <p class="post-hero-lead">El cerebro no es un recipiente que se llena de conocimientos. Es una arquitectura viva que se construye, se modifica y se reorganiza a lo largo de toda la vida. Comprender cómo ocurre esta construcción es el primer paso para enseñar mejor.</p>
+      <div class="post-hero-meta"><span><strong>Fuente:</strong> Unidad 2, UCC</span><span><strong>Lectura:</strong> 7 minutos</span></div>
+    </div>
+  </section>
+  <div class="article-wrap">
+    <article class="article-body">
+      <h2>¿Qué significa "construir" un cerebro?</h2>
+      <p>La metáfora de la construcción no es casual. El cerebro humano no llega al mundo terminado; llega con una arquitectura básica determinada por la genética y con una capacidad extraordinaria —la neuroplasticidad— para reorganizarse en respuesta al entorno. Esta construcción continua, documentada por la neurociencia, tiene consecuencias directas para la educación: significa que lo que ocurre en la vida de un niño —las experiencias que vive, las relaciones que establece, las emociones que experimenta— moldea literalmente la estructura física de su cerebro.</p>
+      <p>Catherine Esteban Ojeda, en el módulo <em>Cerebro y Educación</em> de la UCC, lo expresa con claridad: la construcción cerebral "está regida por el cerebro emocional, el cual garantiza la supervivencia del individuo" y determina "la forma en que cada individuo percibe la realidad inherente a su contexto". Esta afirmación redefine la tarea educativa: no se trata solo de transmitir contenidos, sino de participar en la construcción de un cerebro.</p>
+      <h2>Los niveles de complejidad mental</h2>
+      <p>El concepto de complejidad mental nos ayuda a entender que el desarrollo del aprendizaje no es lineal ni uniforme. Está asociado a una interrelación de variables internas y externas vinculadas al individuo, su ego, su desarrollo cognitivo y moral. La neuroeducación se apoya en tres grandes teorías del desarrollo:</p>
+      <h3>El desarrollo del ego (Loevinger)</h3>
+      <p>Jane Loevinger propuso que el ego —esa estructura que integra el control de impulsos, las relaciones interpersonales y el funcionamiento cognitivo— se desarrolla en etapas que van desde lo más simbiótico e impulsivo hasta lo más autónomo e integrado. Lo relevante para la educación es que los estudiantes no llegan todos al aula en el mismo nivel de desarrollo del ego. Un docente que comprende esto puede diseñar estrategias pedagógicas que acompañen ese desarrollo en lugar de ignorarlo.</p>
+      <h3>El desarrollo cognitivo (Piaget)</h3>
+      <p>Jean Piaget describió el desarrollo intelectual en cuatro etapas: sensoriomotora (0-2 años), preoperacional (2-7 años), operaciones concretas (7-12 años) y operaciones formales (más de 12 años). Cada etapa se construye sobre la anterior mediante la <strong>asimilación</strong> —incorporar nueva información a estructuras cognitivas existentes— y la <strong>acomodación</strong> —modificar esas estructuras cuando la información no encaja.</p>
+      <div class="highlight-box"><h4>Pensamiento Postformal</h4><p>Más allá de Piaget, los adultos desarrollan formas más complejas de pensar: el razonamiento dialéctico (encontrar preguntas, no solo respuestas), las operaciones relativas (aceptar la contradicción como parte de la realidad) y el razonamiento trialéctico (integración de múltiples sistemas de pensamiento). Estas capacidades son metas del proceso educativo universitario y de posgrado.</p></div>
+      <h3>El desarrollo moral (Kohlberg)</h3>
+      <p>Lawrence Kohlberg articuló el desarrollo moral en tres grandes niveles: preconvencional (la moral está determinada por las consecuencias para uno mismo), convencional (la moral la define el grupo o la ley) y posconvencional (la moral se basa en principios éticos universales). Estos niveles están estrechamente vinculados al desarrollo cognitivo: no es posible alcanzar el razonamiento moral posconvencional sin las estructuras cognitivas de las operaciones formales.</p>
+      <h2>Neuroplasticidad: la buena noticia</h2>
+      <p>Si hay una idea que la neurociencia ha aportado de manera definitiva a la educación, es la de la <strong>neuroplasticidad</strong>: la capacidad del cerebro para reorganizarse a lo largo de toda la vida. Schwarz (2000) lo explicó: "cada ser humano nace con una carga genética en la que van incluidas sus potencialidades; sin embargo, al crear la red apropiada, estas podrán lograr su máximo potencial".</p>
+      <p>Para Colombia, esto tiene una lectura esperanzadora: los cerebros de los estudiantes que han vivido en la adversidad no están irremediablemente dañados. La neuroplasticidad permite que intervenciones educativas pertinentes, relaciones afectivas reparadoras y ambientes de aprendizaje seguros reorganicen redes neuronales y abran nuevas posibilidades de desarrollo.</p>
+      <div class="info-card"><h4>🧠 Los engramas: la huella del aprendizaje</h4><p>En neurociencia, un <strong>engrama</strong> es la huella que una experiencia deja en el cerebro. Las redes de neuronas que se activan juntas durante una experiencia se fortalecen y forman trazas en la memoria. Las experiencias emocionalmente significativas generan los engramas más duraderos. Por eso, un aula que genera miedo o vergüenza forma engramas negativos que obstaculizan el aprendizaje futuro.</p></div>
+      <h2>Implicaciones para la educación colombiana</h2>
+      <ul>
+        <li>Diseñar ambientes educativos que activen el sistema de recompensa cerebral, no el de amenaza.</li>
+        <li>Reconocer que los estudiantes llegan al aula con cerebros diferentes, moldeados por contextos distintos, que requieren pedagogías diversificadas.</li>
+        <li>Formar docentes que comprendan la neurobiología del aprendizaje para tomar mejores decisiones en el aula.</li>
+        <li>Articular los aprendizajes de la escuela con las experiencias de vida de los estudiantes, para que los engramas escolares se conviertan en conocimiento genuinamente significativo.</li>
+      </ul>
+      <div class="references"><h4>Referencias</h4>
+        <p>Esteban Ojeda, C. (2015). <em>Unidad 2: La construcción del cerebro</em>. Universidad Cooperativa de Colombia.</p>
+        <p>Schwarz, A. (2000). La plasticidad cerebral es la clave del desarrollo neurológico infantil.</p>
+        <p>Barra, E. (1987). El desarrollo moral: una introducción a la teoría de Kohlberg. <em>Revista Latinoamericana de Psicología, 19</em>(1), 7-18.</p>
+        <p>Mitchel, G. (s.f.). Complejidad cognitiva y operaciones postformales. Trans4mind.es.</p>
+      </div>
+    </article>
+    <aside class="article-sidebar">
+      <div class="sidebar-widget">
+        <h3>En este artículo</h3>
+        <ul class="toc-list">
+          <li><a>¿Qué significa construir un cerebro?</a></li>
+          <li><a>Loevinger · Piaget · Kohlberg</a></li>
+          <li><a>Pensamiento postformal</a></li>
+          <li><a>Neuroplasticidad</a></li>
+          <li><a>Implicaciones para Colombia</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-widget">
+        <h3>Artículos relacionados</h3>
+        <ul class="related-list">
+          <li><a onclick="showPage('p1')">← La problemática en Colombia</a></li>
+          <li><a onclick="showPage('p3')">Familia y escuela →</a></li>
+          <li><a onclick="showPage('p4')">El cerebro emocional →</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+  <div style="text-align:center;padding:2rem 2rem 3rem;border-top:1px solid var(--border);display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+    <button class="nav-btn secondary" onclick="showPage('p1')">← Artículo anterior</button>
+    <button class="nav-btn" onclick="showPage('p3')">Siguiente: Familia y escuela →</button>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA: ARTÍCULO 3 ==================== -->
+<div class="page" id="page-p3">
+  <section class="post-hero" style="background:linear-gradient(145deg,#2A1000 0%,#1A1B1E 100%)">
+    <div class="post-hero-inner">
+      <div class="breadcrumb"><span class="bc-link" onclick="showPage('home')">Inicio</span> › Artículo 03</div>
+      <span class="post-hero-tag">Neuroeducación · Familia · Escuela</span>
+      <h1 class="post-hero-title">Familia y escuela: los dos grandes constructores del cerebro</h1>
+      <p class="post-hero-lead">La dinámica familiar es el primer laboratorio donde el cerebro aprende a existir. La escuela es el segundo. Cuando ambos espacios se articulan con intención, el estudiante llega a ser todo lo que puede ser. Cuando se desconectan, el cerebro paga el costo.</p>
+      <div class="post-hero-meta"><span><strong>Fuente:</strong> Unidad 2, Tema 2 — UCC</span><span><strong>Lectura:</strong> 8 minutos</span></div>
+    </div>
+  </section>
+  <div class="article-wrap">
+    <article class="article-body">
+      <h2>La familia: el primer laboratorio del cerebro</h2>
+      <p>Desde que un bebé llega al mundo, su cerebro comienza a registrar, a aprender y a construirse. Los primeros estímulos —una voz cálida, una caricia, el ritmo de la respiración de quien lo sostiene— son el material con que el cerebro elabora sus primeras redes neuronales. La familia no es el lugar donde el cerebro espera para ir a aprender a la escuela; es el primer y más poderoso entorno de aprendizaje que un ser humano experimenta.</p>
+      <p>Schwarz (2000) lo dejó claro: la dinámica intrafamiliar, con sus estímulos, sus reglas y su escenario, es el entorno primario de motivación para que el individuo construya su cerebro. Y la neurociencia respalda esta afirmación: los primeros años de vida son el período de mayor plasticidad cerebral; las conexiones sinápticas se establecen a un ritmo extraordinario, y la calidad de las experiencias que rodean al niño determina cuáles conexiones se fortalecen y cuáles se eliminan.</p>
+      <blockquote>"El camino que va desde la casa al niño y del niño a la casa pasa a través de otra persona. El tránsito de la vía biológica de desarrollo a lo social es el eslabón central en el proceso de desarrollo."<cite>— Lev Vygotsky, citado en Campa (2002)</cite></blockquote>
+      <h2>Engramas familiares: las huellas que no se ven</h2>
+      <p>La neurociencia define el <strong>engrama</strong> como la huella que una experiencia deja en la red neuronal. Los engramas no solo son los recuerdos conscientes que podemos narrar; son también las respuestas emocionales automáticas, los hábitos de pensamiento, las asociaciones que hacemos sin darnos cuenta. El hogar es el gran generador de engramas en los primeros años de vida.</p>
+      <p>Un niño que crece en un entorno familiar afectuoso, estimulante y con límites claros desarrolla engramas de seguridad: su sistema nervioso aprende que el mundo es un lugar donde puede explorar, equivocarse y aprender. Un niño que crece en la violencia, la negligencia o la incertidumbre crónica desarrolla engramas de amenaza. Esos engramas llegan al aula escolar mucho antes que cualquier contenido curricular.</p>
+      <div class="concept-grid">
+        <div class="concept-item"><h5>Estimulación temprana</h5><p>Los juegos, las conversaciones, los cuentos y la exploración sensorial forman las redes neuronales que sostienen el aprendizaje formal posterior.</p></div>
+        <div class="concept-item"><h5>Vínculos afectivos seguros</h5><p>El apego seguro regula el sistema nervioso del niño y libera recursos cognitivos para explorar, aprender y resolver problemas.</p></div>
+        <div class="concept-item"><h5>Límites y autorregulación</h5><p>Los límites apropiados enseñan al cerebro prefrontal a inhibir impulsos y diferir gratificaciones, base de las funciones ejecutivas.</p></div>
+        <div class="concept-item"><h5>Lenguaje y pensamiento</h5><p>La riqueza del lenguaje en el hogar predice el desarrollo del vocabulario, la comprensión lectora y las habilidades de razonamiento abstracto.</p></div>
+      </div>
+      <h2>La escuela: el segundo constructor</h2>
+      <p>Cuando el niño llega a la escuela, su cerebro ya tiene una historia. Ha construido patrones de percepción, estrategias de respuesta emocional y hábitos cognitivos basados en sus experiencias familiares. La escuela recibe ese cerebro ya moldeado y tiene la posibilidad —y la responsabilidad— de continuarlo, enriquecerlo o, lamentablemente, ignorarlo.</p>
+      <p>Vallés (2011) describe el escenario escolar como "el contexto para la manifestación de las necesidades en cuanto a sensaciones", un espacio donde se ponen de relieve las necesidades emocionales que el estudiante lleva consigo y que se expresan en las relaciones con los pares, con los docentes y con la institución. La escuela no es solo un lugar donde se aprenden matemáticas o ciencias naturales: es un ecosistema donde el cerebro social del estudiante se desarrolla o se reprime.</p>
+      <div class="highlight-box"><h4>Lo que la neurociencia dice sobre la escuela</h4><p>Fernández (2007) sostiene que "la principal función de la escuela no ha sido nunca enseñar, sino educar". Desde la neurociencia, esto se traduce en que la escuela no solo transmite información; modela conductas, actitudes y disposiciones. El currículum oculto —el que se aprende en las relaciones, en los climas emocionales, en las formas de ejercer la autoridad— es también neurobiológicamente formativo.</p></div>
+      <h2>La brecha familia-escuela en Colombia</h2>
+      <p>En Colombia, la desconexión entre familia y escuela tiene consecuencias que van más allá de lo organizativo. Cuando la cultura familiar del estudiante —su lenguaje, sus valores, sus formas de relacionarse— es ignorada o desvalorizada por la escuela, el cerebro experimenta una disonancia cognitiva y emocional que obstruye el aprendizaje.</p>
+      <p>La investigación de Guerra et al. (2012) reveló hallazgos contundentes: en familias con desventajas sociales se reduce la actuación cognitiva de los niños; los climas sociopsicológicos tensionantes repercuten en el desarrollo psicológico; y la formación del pensamiento "depende no solo de una cualidad biológica sino que requiere de condiciones sociales y de educación".</p>
+      <h2>Hacia una alianza familia-escuela con enfoque neurocientífico</h2>
+      <ul>
+        <li><strong>Escuelas para padres centradas en neuroeducación:</strong> Enseñar a las familias cómo la estimulación temprana, el lenguaje afectivo y la gestión emocional en el hogar impactan el aprendizaje escolar.</li>
+        <li><strong>Conocimiento del contexto familiar por parte del docente:</strong> Un maestro que conoce la historia de vida de sus estudiantes puede anticipar sus respuestas cerebrales y diseñar estrategias de acompañamiento pertinentes.</li>
+        <li><strong>Ambientes escolares que validen la cultura familiar:</strong> Incorporar los saberes y las referencias culturales de las familias en el currículo activa el sistema de recompensa cerebral y fortalece la identidad del estudiante.</li>
+        <li><strong>Redes de apoyo psicosocial:</strong> En contextos de vulnerabilidad, la articulación familia-escuela debe incluir trabajo psicosocial que aborde los traumas y el estrés crónico.</li>
+      </ul>
+      <div class="info-card"><h4>💡 Para reflexionar</h4><p>Si la dinámica intrafamiliar es el entorno primario de construcción del cerebro, y si la neuroplasticidad permite que ese cerebro se reorganice con nuevas experiencias, entonces cada maestro que crea un aula emocionalmente segura está participando activamente en la construcción de un cerebro. Eso es, en definitiva, lo que significa enseñar.</p></div>
+      <div class="references"><h4>Referencias</h4>
+        <p>Esteban Ojeda, C. (2015). <em>Unidad 2, Tema 2: Construcción familiar y escolar del cerebro</em>. UCC.</p>
+        <p>Guerra, A. et al. (2012). Influencia del ambiente familiar en el desarrollo del pensamiento. <em>Revista Argentina de Clínica Psicológica, 21</em>(3), 265-269.</p>
+        <p>Vallés, A. (2011). <em>Inteligencia emocional para la convivencia escolar</em>. INEA.</p>
+        <p>Fernández, M. (2007). Educar es cosa de todos. <em>La relación familia-escuela</em>. Universidad de Lérida.</p>
+      </div>
+    </article>
+    <aside class="article-sidebar">
+      <div class="sidebar-widget">
+        <h3>En este artículo</h3>
+        <ul class="toc-list">
+          <li><a>La familia como laboratorio</a></li>
+          <li><a>Engramas familiares</a></li>
+          <li><a>La escuela como constructor</a></li>
+          <li><a>La brecha en Colombia</a></li>
+          <li><a>Alianza familia-escuela</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-widget">
+        <h3>Artículos relacionados</h3>
+        <ul class="related-list">
+          <li><a onclick="showPage('p2')">← La construcción del cerebro</a></li>
+          <li><a onclick="showPage('p4')">El cerebro emocional →</a></li>
+          <li><a onclick="showPage('p5')">Funciones ejecutivas →</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+  <div style="text-align:center;padding:2rem 2rem 3rem;border-top:1px solid var(--border);display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+    <button class="nav-btn secondary" onclick="showPage('p2')">← Artículo anterior</button>
+    <button class="nav-btn" onclick="showPage('p4')">Siguiente: Cerebro emocional →</button>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA: ARTÍCULO 4 ==================== -->
+<div class="page" id="page-p4">
+  <section class="post-hero" style="background:linear-gradient(145deg,#1A0A00 0%,#2A1B1E 100%)">
+    <div class="post-hero-inner">
+      <div class="breadcrumb"><span class="bc-link" onclick="showPage('home')">Inicio</span> › Artículo 04</div>
+      <span class="post-hero-tag">Emoción · Motivación · Neurociencia</span>
+      <h1 class="post-hero-title">Sin emoción no hay aprendizaje: el cerebro emocional en el aula</h1>
+      <p class="post-hero-lead">Joseph LeDoux demostró que la emoción llega al cerebro antes que la razón. Antonio Damasio confirmó que no existe pensamiento racional sin base emocional. ¿Por qué entonces las escuelas colombianas siguen diseñando aulas que ignoran el cerebro emocional?</p>
+      <div class="post-hero-meta"><span><strong>Fuente:</strong> Unidad 2, Tema 3 — UCC</span><span><strong>Lectura:</strong> 7 minutos</span></div>
+    </div>
+  </section>
+  <div class="article-wrap">
+    <article class="article-body">
+      <h2>El cerebro social: somos lo que somos en relación con otros</h2>
+      <p>El ser humano no es un ser individual que en algún momento decide relacionarse con otros. Es, desde su origen neurobiológico, un ser social. Las redes neuronales responsables de la conducta social están especificadas por el genoma, pero son las experiencias relacionales las que las esculpen. Tuchman (2001) planteó: "en la medida en que se entienda la importancia de las redes neuronales cerebrales vinculadas con la conducta social y se desarrollen técnicas para maximizar la comunicación social se verá favorecida la sociedad".</p>
+      <p>La neurociencia ha identificado estructuras cerebrales clave en la conducta social. La amígdala es crucial para detectar las señales emocionales en los rostros de los otros, para reconocer el peligro social y para procesar la información afectiva. Cuando la amígdala presenta disfunciones —como ocurre en contextos de trauma sostenido—, la capacidad del individuo para leer el entorno social se deteriora, con consecuencias directas sobre el aprendizaje cooperativo y la convivencia escolar.</p>
+      <h2>Dos sistemas del cerebro social</h2>
+      <h3>Las neuronas espejo: el contagio que enseña</h3>
+      <p>Descubiertas por Giacomo Rizzolatti, las neuronas espejo se activan tanto cuando realizamos una acción como cuando observamos a otro realizarla. Son la base neurobiológica de la imitación, la empatía y el aprendizaje observacional. En el aula, el entusiasmo de un docente por su materia literalmente contagia al cerebro del estudiante. Un docente que enseña con desgano, con distancia emocional o con frustración visible está transmitiendo, vía neuronas espejo, esas mismas respuestas a sus estudiantes.</p>
+      <h3>La teoría de la mente: entender al otro desde adentro</h3>
+      <p>La teoría de la mente se refiere a la capacidad de atribuir estados mentales —pensamientos, creencias, intenciones, deseos— a otras personas. En el aula, permite al docente comprender por qué un estudiante responde de determinada manera, y al estudiante entender las intenciones del docente y de sus compañeros.</p>
+      <div class="highlight-box"><h4>Empatía y toma de perspectiva en el aula</h4><p>Los investigadores del cerebro social identifican dos aspectos clave: la empatía —ponerse en el lugar del otro desde la propia experiencia— y la toma de perspectiva —conocer al otro y sus realidades para comprenderlo desde su historia. Cuando el aula cultiva ambas capacidades, construye redes neuronales de comprensión que son, simultáneamente, habilidades sociales y herramientas cognitivas.</p></div>
+      <h2>La emoción como primera puerta del aprendizaje</h2>
+      <p>Joseph LeDoux transformó la comprensión del cerebro con un hallazgo fundamental: la información sensorial llega a la amígdala —el centro emocional— antes de llegar a la corteza cerebral —el centro del razonamiento—. Esto significa que toda experiencia de aprendizaje pasa primero por el filtro emocional. Si la emoción asociada es positiva —curiosidad, placer, sentido de logro, pertenencia—, el cerebro abre sus puertas al aprendizaje. Si es negativa —miedo, vergüenza, aburrimiento, amenaza—, el cerebro activa mecanismos de protección que bloquean la cognición compleja.</p>
+      <blockquote>"No hay razón sin emoción. La información que se recibe del medio ambiente entra al cerebro sin significado alguno; cuando llega al sistema límbico se le etiqueta, se le dice si es bueno o malo."<cite>— Esteban Ojeda, Unidad 2, Tema 3, UCC</cite></blockquote>
+      <h2>Antonio Damasio y el marcador somático</h2>
+      <p>Antonio Damasio aportó otra pieza fundamental con su hipótesis del marcador somático: las emociones no interfieren con el pensamiento racional; son parte constitutiva de él. Cuando tomamos decisiones, no solo procesamos información lógica; también procesamos señales corporales asociadas a experiencias emocionales previas. En el contexto educativo colombiano, esto explica por qué muchos estudiantes "deciden" no aprender, no participar o no asistir: es la respuesta de un sistema nervioso que ha marcado emocionalmente la experiencia escolar como peligrosa, humillante o sin sentido.</p>
+      <h2>La motivación: el combustible cerebral del aprendizaje</h2>
+      <div class="concept-grid">
+        <div class="concept-item"><h5>Necesidad</h5><p>La pertenencia es una necesidad psicológica cuya insatisfacción en el aula bloquea el aprendizaje a nivel neurobiológico.</p></div>
+        <div class="concept-item"><h5>Cognición</h5><p>El autoconcepto del estudiante sobre su capacidad determina su nivel de motivación. Las creencias limitantes son neurobiológicamente reales.</p></div>
+        <div class="concept-item"><h5>Emoción intrínseca</h5><p>La curiosidad, el asombro y el placer del descubrimiento activan el sistema dopaminérgico de recompensa, reforzando el aprendizaje.</p></div>
+        <div class="concept-item"><h5>Autonomía</h5><p>A mayor autonomía en la motivación, mayor esfuerzo y logro. Los estudiantes que sienten que eligen aprenden más y mejor (Reeve, 2010).</p></div>
+      </div>
+      <h2>Implicaciones para la práctica docente en Colombia</h2>
+      <ul>
+        <li><strong>El docente como regulador emocional:</strong> Las neuronas espejo hacen que los estudiantes "capturen" el estado emocional del docente. Un maestro regulado emocionalmente crea condiciones cerebrales para el aprendizaje.</li>
+        <li><strong>El aula como espacio de pertenencia:</strong> El cerebro social necesita sentirse parte de un grupo que lo valida. Las dinámicas de exclusión o ridiculización activan el sistema de amenaza y cierran las puertas del aprendizaje.</li>
+        <li><strong>La retroalimentación con enfoque de crecimiento:</strong> Los comentarios que refuerzan la capacidad de mejorar reducen el cortisol y aumentan la motivación intrínseca.</li>
+        <li><strong>Conectar el contenido con las emociones y la vida:</strong> La información que llega al cerebro sin carga emocional significativa se olvida. La que llega conectada con emociones positivas se consolida en memoria de largo plazo.</li>
+      </ul>
+      <div class="info-card"><h4>🎯 Un aula emocionalmente inteligente</h4><p>Un aula donde los estudiantes se sienten vistos, valorados y seguros es, en términos neurobiológicos, el ambiente más eficiente posible para aprender. La inteligencia emocional del docente no es una habilidad blanda: es la herramienta más poderosa que tiene para activar el cerebro de sus estudiantes.</p></div>
+      <div class="references"><h4>Referencias</h4>
+        <p>Esteban Ojeda, C. (2015). <em>Unidad 2, Tema 3: Cerebro emocional y social</em>. UCC.</p>
+        <p>LeDoux, J. (2000). <em>El cerebro emocional</em>. Planeta.</p>
+        <p>Damasio, A. (1994). <em>El error de Descartes</em>. Crítica.</p>
+        <p>Reeve, J. (2010). <em>Motivación y emoción</em>. McGraw-Hill Interamericana.</p>
+        <p>Rizzolatti, G. y Craghero, L. (2004). The mirror-neuron system. <em>Annual Review of Neuroscience, 27</em>, 169-192.</p>
+        <p>Tuchman, R. (2001). Cómo construir un cerebro social. <em>Revista de Neurología, 33</em>(3), 292-299.</p>
+      </div>
+    </article>
+    <aside class="article-sidebar">
+      <div class="sidebar-widget">
+        <h3>En este artículo</h3>
+        <ul class="toc-list">
+          <li><a>El cerebro social</a></li>
+          <li><a>Neuronas espejo</a></li>
+          <li><a>Teoría de la mente</a></li>
+          <li><a>La emoción como puerta</a></li>
+          <li><a>Damasio · marcador somático</a></li>
+          <li><a>Motivación cerebral</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-widget">
+        <h3>Artículos relacionados</h3>
+        <ul class="related-list">
+          <li><a onclick="showPage('p3')">← Familia y escuela</a></li>
+          <li><a onclick="showPage('p5')">Funciones ejecutivas →</a></li>
+          <li><a onclick="showPage('p1')">La problemática en Colombia</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+  <div style="text-align:center;padding:2rem 2rem 3rem;border-top:1px solid var(--border);display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+    <button class="nav-btn secondary" onclick="showPage('p3')">← Artículo anterior</button>
+    <button class="nav-btn" onclick="showPage('p5')">Siguiente: Funciones ejecutivas →</button>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA: ARTÍCULO 5 ==================== -->
+<div class="page" id="page-p5">
+  <section class="post-hero" style="background:linear-gradient(145deg,#12082A 0%,#1A1B1E 100%)">
+    <div class="post-hero-inner">
+      <div class="breadcrumb"><span class="bc-link" onclick="showPage('home')">Inicio</span> › Artículo 05</div>
+      <span class="post-hero-tag">Funciones Ejecutivas · Rojas-Barahona</span>
+      <h1 class="post-hero-title">Funciones ejecutivas: el motor del aprendizaje que Colombia necesita fortalecer</h1>
+      <p class="post-hero-lead">Memoria de trabajo, control inhibitorio, flexibilidad cognitiva. Tres habilidades cerebrales que predicen el éxito académico más que el CI. Rojas-Barahona nos explica por qué son fundamentales y cómo desarrollarlas en el aula.</p>
+      <div class="post-hero-meta"><span><strong>Fuente:</strong> Rojas-Barahona, C. A. — Cap. 1</span><span><strong>Lectura:</strong> 9 minutos</span></div>
+    </div>
+  </section>
+  <div class="article-wrap">
+    <article class="article-body">
+      <h2>¿Qué son las funciones ejecutivas?</h2>
+      <p>Las funciones ejecutivas (FE) son un conjunto de habilidades cognitivas de orden superior que nos permiten dirigir, planificar, regular y evaluar nuestro comportamiento en función de metas. Cristina A. Rojas-Barahona las define como procesos cognitivos que permiten "el control consciente del pensamiento, la emoción y la acción" y que son esenciales para el aprendizaje escolar y la vida en sociedad.</p>
+      <p>No son habilidades periféricas al aprendizaje; son su motor central. Un estudiante con funciones ejecutivas bien desarrolladas puede mantener la atención durante una clase larga, inhibir impulsos que lo distraen, cambiar de estrategia cuando algo no funciona, planificar cómo resolver un problema complejo y autorregular sus emociones ante la frustración del error.</p>
+      <h2>Las tres funciones ejecutivas nucleares</h2>
+      <h3>1. Control inhibitorio</h3>
+      <p>El control inhibitorio es la capacidad de frenar respuestas automáticas, pensamientos y conductas que no son apropiadas para el momento o la meta. En el aula, permite al estudiante escuchar sin interrumpir, esperar su turno, no rendirse ante el primer obstáculo. Esta función tiene un correlato cerebral claro: la corteza prefrontal. Es también la región más vulnerable al estrés crónico: el cortisol elevado deteriora la corteza prefrontal, lo que explica por qué los estudiantes en contextos de adversidad tienen mayor dificultad para autorregularse.</p>
+      <h3>2. Memoria de trabajo</h3>
+      <p>La memoria de trabajo es la capacidad de mantener y manipular información en la mente mientras realizamos una tarea. Es lo que usamos cuando resolvemos una ecuación sin papel, cuando seguimos las instrucciones de una actividad, cuando entendemos un texto largo relacionando ideas entre sí. Para los docentes, esto significa que dar demasiadas instrucciones simultáneas o presentar demasiada información sin pausas sobrecarga la memoria de trabajo de los estudiantes, especialmente de los más jóvenes o de quienes tienen dificultades en esta función.</p>
+      <h3>3. Flexibilidad cognitiva</h3>
+      <p>La flexibilidad cognitiva es la capacidad de cambiar de perspectiva, de estrategia o de enfoque cuando las circunstancias lo requieren. En el aprendizaje, es fundamental para la comprensión de conceptos complejos, para el pensamiento creativo y para la resolución de problemas no rutinarios.</p>
+      <div class="concept-grid">
+        <div class="concept-item"><h5>Control Inhibitorio</h5><p>Frenar respuestas automáticas. Base de la autorregulación, la atención sostenida y la conducta apropiada al contexto.</p></div>
+        <div class="concept-item"><h5>Memoria de Trabajo</h5><p>Mantener y manipular información activa. Esencial para la comprensión lectora, el cálculo mental y el seguimiento de instrucciones.</p></div>
+        <div class="concept-item"><h5>Flexibilidad Cognitiva</h5><p>Cambiar de perspectiva y estrategia. Base del pensamiento creativo, la solución de problemas y la empatía cognitiva.</p></div>
+        <div class="concept-item"><h5>Funciones de orden superior</h5><p>Planificación, organización, metacognición y razonamiento abstracto. Se construyen sobre las tres funciones nucleares.</p></div>
+      </div>
+      <div class="highlight-box"><h4>Las FE y la desigualdad educativa en Colombia</h4><p>La investigación en neurociencia cognitiva ha documentado que el desarrollo de las funciones ejecutivas está fuertemente influenciado por el entorno socioeconómico y las experiencias tempranas. Los niños que crecen en contextos de pobreza, estrés crónico y escasa estimulación cognitiva muestran un desarrollo de FE significativamente menor. Esto no es determinismo biológico: es una consecuencia de la desigualdad que el sistema educativo puede compensar con intervenciones pertinentes.</p></div>
+      <h2>El papel del docente en el desarrollo de las FE</h2>
+      <p>Rojas-Barahona propone que los docentes pueden —y deben— desarrollar intencionalmente las funciones ejecutivas de sus estudiantes a través de la práctica pedagógica cotidiana:</p>
+      <ul>
+        <li><strong>Para el control inhibitorio:</strong> Juegos de reglas, actividades que requieren esperar el turno, ejercicios de regulación emocional, debates donde se deba escuchar antes de hablar.</li>
+        <li><strong>Para la memoria de trabajo:</strong> Instrucciones secuenciales que se van añadiendo, actividades de síntesis al final de clase, juegos de memoria, mapas conceptuales y resúmenes.</li>
+        <li><strong>Para la flexibilidad cognitiva:</strong> Discusiones con múltiples perspectivas, actividades de role-play, resolución de problemas con más de una solución correcta, el reconocimiento explícito del error como parte del aprendizaje.</li>
+      </ul>
+      <h2>La metacognición: pensar sobre cómo pensamos</h2>
+      <p>Una de las funciones ejecutivas de orden superior más relevantes para la educación es la metacognición: la capacidad de pensar sobre los propios procesos de pensamiento. Un estudiante metacognitivo sabe cuándo entiende y cuándo no; puede identificar qué estrategias le funcionan y cuáles no; puede planificar cómo abordar una tarea difícil y evaluar si su enfoque está siendo efectivo.</p>
+      <h2>Una propuesta pedagógica para Colombia</h2>
+      <ol>
+        <li><strong>Incluir neurociencia cognitiva en la formación inicial y continua de docentes.</strong></li>
+        <li><strong>Diseñar currículos que equilibren contenidos y habilidades cognitivas:</strong> integrar experiencias pedagógicas que desarrollen ambas de manera conjunta.</li>
+        <li><strong>Priorizar la educación inicial con enfoque en FE:</strong> Los primeros cinco años de vida son el período de mayor plasticidad para el desarrollo de las funciones ejecutivas.</li>
+        <li><strong>Crear ambientes escolares de baja amenaza y alto desafío:</strong> El desarrollo de las FE requiere que el cerebro se sienta seguro para explorar y equivocarse.</li>
+      </ol>
+      <div class="info-card"><h4>🔬 Reflexión final del blog</h4><p>Este recorrido por la neurociencia —desde la construcción del cerebro hasta las funciones ejecutivas— nos conduce a una misma conclusión: la problemática educativa colombiana no puede resolverse sin comprender cómo funciona el cerebro que aprende. La neurociencia no reemplaza a la pedagogía; la enriquece, la fundamenta y la transforma. Esa transformación es la tarea urgente de la educación colombiana del siglo XXI.</p></div>
+      <div class="references"><h4>Referencias</h4>
+        <p>Rojas-Barahona, C. A. (2022). <em>Funciones ejecutivas y educación: comprendiendo habilidades clave para el aprendizaje. Capítulo 1: Funciones ejecutivas y su vínculo en la educación</em>. Ediciones UC.</p>
+        <p>Esteban Ojeda, C. (2015). <em>Unidad 2: La construcción del cerebro</em>. Universidad Cooperativa de Colombia.</p>
+        <p>Diamond, A. (2013). Executive functions. <em>Annual Review of Psychology, 64</em>, 135-168.</p>
+        <p>Reeve, J. (2010). <em>Motivación y emoción</em>. McGraw-Hill Interamericana.</p>
+        <p>Riaño, L. (2011). <em>Retos actuales de la Neuropicopedagogía: cerebro, educación y familia</em>. INEA.</p>
+      </div>
+    </article>
+    <aside class="article-sidebar">
+      <div class="sidebar-widget">
+        <h3>En este artículo</h3>
+        <ul class="toc-list">
+          <li><a>¿Qué son las FE?</a></li>
+          <li><a>Control inhibitorio</a></li>
+          <li><a>Memoria de trabajo</a></li>
+          <li><a>Flexibilidad cognitiva</a></li>
+          <li><a>FE y desigualdad en Colombia</a></li>
+          <li><a>Propuesta pedagógica</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-widget">
+        <h3>Artículos relacionados</h3>
+        <ul class="related-list">
+          <li><a onclick="showPage('p4')">← El cerebro emocional</a></li>
+          <li><a onclick="showPage('p1')">La problemática en Colombia</a></li>
+          <li><a onclick="showPage('p2')">La construcción del cerebro</a></li>
+          <li><a onclick="showPage('p3')">Familia y escuela</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-widget" style="background:linear-gradient(135deg,#12082A,#1A1B1E);color:var(--cream)">
+        <h3 style="color:rgba(245,240,232,.5)">Fuente principal</h3>
+        <p style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--cream);font-style:italic;line-height:1.5;margin-bottom:.4rem">Funciones Ejecutivas y Educación</p>
+        <p style="font-size:.85rem;color:rgba(245,240,232,.6);margin:0">Cristina A. Rojas-Barahona — Cap. 1</p>
+      </div>
+    </aside>
+  </div>
+  <div style="text-align:center;padding:2rem 2rem 3rem;border-top:1px solid var(--border);display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+    <button class="nav-btn secondary" onclick="showPage('p4')">← Artículo anterior</button>
+    <button class="nav-btn" onclick="showPage('about')">Conocer el equipo →</button>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA: NOSOTROS ==================== -->
+<div class="page" id="page-about">
+  <section class="about-hero">
+    <h1>Sobre NeurAula Colombia</h1>
+    <p>Un espacio de reflexión pedagógica donde la neurociencia se convierte en herramienta para transformar la educación colombiana.</p>
+  </section>
+  <div class="about-section">
+    <div style="background:var(--white);border-radius:12px;padding:2.5rem;box-shadow:var(--shadow);margin-bottom:2.5rem">
+      <h2 style="font-size:1.4rem;margin-bottom:1rem;color:var(--teal)">¿Qué es este blog?</h2>
+      <p style="font-size:1.05rem;line-height:1.8;margin-bottom:1rem"><strong>NeurAula Colombia</strong> nació como producción del <strong>Momento Evaluativo 2</strong> del curso <em>Cerebro y Educación</em>, en el marco de la <strong>Maestría en Educación</strong> de la Universidad Cooperativa de Colombia (UCC). Su propósito es reflexionar sobre la importancia de la neurociencia en el análisis, la comprensión y el abordaje de la deserción escolar y el bajo rendimiento académico en contextos de vulnerabilidad en Colombia.</p>
+      <p style="font-size:1.05rem;line-height:1.8;margin-bottom:0">El blog integra los contenidos de la <strong>Unidad 2 del módulo Cerebro y Educación</strong> (autora: Catherine Esteban Ojeda, UCC) y el <strong>Capítulo 1 del libro Funciones Ejecutivas y Educación</strong> de Cristina A. Rojas-Barahona, para construir una reflexión pedagógica coherente y fundamentada.</p>
+    </div>
+    <div class="author-card">
+      <div class="author-avatar">IG</div>
+      <div>
+        <h3 style="font-size:1.2rem;margin-bottom:.3rem">Autora del Blog</h3>
+        <p style="font-size:.95rem;color:var(--text-muted);margin-bottom:.5rem">Maestrante en Educación · Universidad Cooperativa de Colombia</p>
+        <p style="font-size:1rem;line-height:1.7;margin:0">Estudiante de la Maestría en Educación con énfasis en neuroeducación y pedagogía. Docente e investigadora comprometida con la transformación de las prácticas educativas en Colombia a través del conocimiento sobre el cerebro y el aprendizaje.</p>
+      </div>
+    </div>
+    <div style="margin:2.5rem 0">
+      <h2 style="font-size:1.4rem;margin-bottom:1.5rem;color:var(--teal)">Objetivos del blog</h2>
+      <div class="objective-grid">
+        <div class="objective-item"><div class="objective-icon">🧠</div><h3>Divulgar neurociencia educativa</h3><p>Traducir el conocimiento científico sobre el cerebro a un lenguaje pedagógico accesible para docentes, familias y comunidades educativas.</p></div>
+        <div class="objective-item"><div class="objective-icon">🇨🇴</div><h3>Contextualizar en Colombia</h3><p>Analizar la problemática educativa colombiana —especialmente la deserción escolar— desde la perspectiva de la neurociencia contemporánea.</p></div>
+        <div class="objective-item"><div class="objective-icon">🔗</div><h3>Articular teoría y práctica</h3><p>Proponer reflexiones y acciones pedagógicas concretas basadas en la comprensión de cómo el cerebro aprende, siente y se desarrolla.</p></div>
+        <div class="objective-item"><div class="objective-icon">✊</div><h3>Aportar a la equidad educativa</h3><p>Visibilizar cómo la desigualdad social afecta el desarrollo cerebral y proponer intervenciones pedagógicas que contribuyan a cerrar esas brechas.</p></div>
+      </div>
+    </div>
+    <div style="background:var(--teal);border-radius:12px;padding:2.5rem;text-align:center;color:var(--cream);margin-bottom:2.5rem">
+      <h2 style="color:var(--cream);margin-bottom:1rem">Marco académico</h2>
+      <p style="font-size:1rem;color:rgba(245,240,232,.8);max-width:600px;margin:0 auto 1.5rem">Producción académica desarrollada como parte del <strong>Momento Evaluativo 2</strong> del curso Cerebro y Educación, Elemento de Competencia 2: La Construcción del Cerebro.</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;font-family:'DM Sans',sans-serif;font-size:.82rem">
+        <span style="background:rgba(255,255,255,.12);padding:.4rem 1rem;border-radius:20px">Universidad Cooperativa de Colombia</span>
+        <span style="background:rgba(255,255,255,.12);padding:.4rem 1rem;border-radius:20px">Maestría en Educación</span>
+        <span style="background:rgba(255,255,255,.12);padding:.4rem 1rem;border-radius:20px">E-learning</span>
+        <span style="background:rgba(255,255,255,.12);padding:.4rem 1rem;border-radius:20px">Cerebro y Educación</span>
+      </div>
+    </div>
+    <div style="margin-bottom:2.5rem">
+      <h2 style="font-size:1.3rem;margin-bottom:1.2rem;color:var(--teal)">Lecturas base</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
+        <div style="background:var(--white);border-radius:10px;padding:1.5rem;box-shadow:var(--shadow);border-top:4px solid var(--teal)">
+          <p style="font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);font-family:'DM Sans',sans-serif;margin-bottom:.5rem">Lectura 1</p>
+          <p style="font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:var(--dark);margin-bottom:.4rem">Unidad 2: La Construcción del Cerebro</p>
+          <p style="font-size:.88rem;color:var(--text-muted);margin:0">Cerebro y Educación · Catherine Esteban Ojeda · Universidad Cooperativa de Colombia</p>
+        </div>
+        <div style="background:var(--white);border-radius:10px;padding:1.5rem;box-shadow:var(--shadow);border-top:4px solid var(--terra)">
+          <p style="font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);font-family:'DM Sans',sans-serif;margin-bottom:.5rem">Lectura 2</p>
+          <p style="font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:var(--dark);margin-bottom:.4rem">Funciones Ejecutivas y su Vínculo en la Educación</p>
+          <p style="font-size:.88rem;color:var(--text-muted);margin:0">Cap. 1 de Funciones Ejecutivas y Educación · Cristina A. Rojas-Barahona</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <button class="nav-btn" onclick="showPage('home')">← Volver al inicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER (siempre visible) ==================== -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-main" style="margin-bottom:.3rem">Neur<span style="color:var(--terra-light)">Aula</span></div>
+      <p>Blog pedagógico sobre neurociencia y educación en Colombia. Creado en el marco de la Maestría en Educación — Universidad Cooperativa de Colombia.</p>
+    </div>
+    <nav class="footer-nav">
+      <h4>Artículos</h4>
+      <ul>
+        <li><a onclick="showPage('p1')">La Problemática</a></li>
+        <li><a onclick="showPage('p2')">El Cerebro</a></li>
+        <li><a onclick="showPage('p3')">Familia y Escuela</a></li>
+        <li><a onclick="showPage('p4')">Cerebro Emocional</a></li>
+        <li><a onclick="showPage('p5')">Funciones Ejecutivas</a></li>
+      </ul>
+    </nav>
+    <nav class="footer-nav">
+      <h4>Blog</h4>
+      <ul>
+        <li><a onclick="showPage('about')">Nosotros</a></li>
+        <li><a onclick="showPage('home')">Inicio</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 NeurAula Colombia · Maestría en Educación · Universidad Cooperativa de Colombia</span>
+    <span>Contenido con fines educativos · Creative Commons CC BY-NC-SA</span>
+  </div>
+</footer>
+
+<script>
+function showPage(id) {
+  // Ocultar todas las páginas
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Mostrar la página pedida
+  const target = document.getElementById('page-' + id);
+  if (target) { target.classList.add('active'); }
+  // Actualizar nav activo
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + id);
+  if (navEl) { navEl.classList.add('active'); }
+  else { document.getElementById('nav-home').classList.add('active'); }
+  // Scroll al tope
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
